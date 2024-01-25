@@ -1,0 +1,14 @@
+version: '1.0'
+services:
+  app:
+    image: alif_assessment:latest
+    build:
+      context: .
+
+    volumes:
+      - ./src:/app/src
+
+    environment:
+      - PYTHONPATH=/app
+    
+    command: /bin/bash

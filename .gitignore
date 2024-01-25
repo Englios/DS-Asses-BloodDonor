@@ -6,3 +6,7 @@
 
 #cahce
 *__pycache__/
+
+#files
+/images/
+/daily_texts/
