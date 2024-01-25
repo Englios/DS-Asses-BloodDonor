@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from utils import vars
+from main_utils import vars
 
 from telegram import Update
 from telegram.ext import ContextTypes

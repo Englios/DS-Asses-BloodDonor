@@ -30,11 +30,10 @@ async def send_daily(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def stop_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.stop_polling()
     
+async def stop_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.job_queue.stop()
+
 def schedule_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
     context.job_queue.run_repeating(lambda context: daily_msg(context, chat_id), interval=20)
-    
-def stop_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.job_queue.stop()
-
 
