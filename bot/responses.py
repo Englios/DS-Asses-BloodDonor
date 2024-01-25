@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from utils.vars import BOT_USERNAME
+from utils import vars
 
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -16,7 +16,7 @@ def handle_response(text:str) -> str:
     processed:str = text.lower()
     
     match processed:
-        case 'how are blood donations in Malaysia trending':
+        case 'how are blood donations in malaysia trending':
             return 'hi'
         
         case 'how are blood donations in the states trending':
@@ -35,7 +35,7 @@ async def handle_message(update:Update,context:ContextTypes.DEFAULT_TYPE):
     print(f'User ({update.message.chat.id}) in {message_type}: "{text}"')
     if message_type == 'group':
         if BOT_USERNAME in text:
-            new_text: str = text.replace(BOT_USERNAME, '').strip()
+            new_text: str = text.replace(vars.BOT_USERNAME, '').strip()
             response:str = handle_response(new_text)
             
         else:
