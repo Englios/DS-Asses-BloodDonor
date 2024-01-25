@@ -10,9 +10,10 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import numpy as np
 
-from utils.data_loader import *
-from utils.save_fig import save_fig
-from datetime import datetime
+from main_utils.data_loader import *
+from main_utils.save_fig import save_fig
+from utils.helper import parse_comparison
+from datetime import datetime,timedelta
 
 sns.set(style="whitegrid")
 plt.figure(figsize=(15,6))
@@ -30,6 +31,10 @@ aggregate_data_dict = get_data_from_repo(AGGREGATE_DATA_REPO)
 donations_state_df = aggregate_data_dict['donations_state_df'][['date', 
                                                     'state', 
                                                     'daily',
+                                                    'blood_a',
+                                                    'blood_b',
+                                                    'blood_o',
+                                                    'blood_ab',
                                                     'location_centre',
                                                     'location_mobile',
                                                     'donations_new',
@@ -116,6 +121,44 @@ plt.ylabel('Donors')
 plt.title(f'New Donors By Age Group From {datetime.now().year - 1} - {datetime.now().year}')
 save_fig("./images/trend_new_donors_age_group.jpg")
 
+#Get Daily Message
+donations_state_df['date'] = pd.to_datetime(donations_state_df['date'])
+latest_date = donations_state_df['date'].max()
+start_date = latest_date - timedelta(days=2)
+daily_df = donations_state_df.loc[(donations_state_df['date'] >= start_date) & (donations_state_df['date'] <= latest_date)].reset_index(drop=True)
+my_filter_latest = (daily_df['date'] == latest_date) & (daily_df['state'] == 'Malaysia')
+my_filter_previous = (daily_df['date'] == start_date) & (daily_df['state'] == 'Malaysia')
+
+
+latest_donors = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'daily'].values[0])
+previous_donors = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'daily'].values[0])
+
+new_latest_donors = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'donations_new'].values[0])
+new_previous_donors = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'donations_new'].values[0])
+
+regular_latest_donors = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'donations_regular'].values[0])
+regular_previous_donors = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'donations_regular'].values[0])
+
+others_latest_donors = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'donations_irregular'].values[0])
+others_previous_donors = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'donations_irregular'].values[0])
+
+latest_blood_a = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'blood_a'].values[0])
+previous_blood_a = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'blood_a'].values[0])
+
+latest_blood_b = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'blood_b'].values[0])
+previous_blood_b = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'blood_b'].values[0])
+
+latest_blood_ab = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'blood_ab'].values[0])
+previous_blood_ab = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'blood_ab'].values[0])
+
+latest_blood_o = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'blood_o'].values[0])
+previous_blood_o = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'blood_o'].values[0])
+
+
+
+with open('./daily_texts/daily_message.txt','w',encoding='utf-8') as f:
+    f.write(f'''\n= Latest Update as of {daily_df['date'].loc[daily_df['date'] == latest_date].drop_duplicates().values[0].astype('datetime64[D]')} =\n\nDonor Statistics\n\t- Total Donors   : {latest_donors} ({parse_comparison(latest_donors,previous_donors)})\n\t- New Donors     : {new_latest_donors} ({parse_comparison(new_latest_donors,new_previous_donors)})\n\t- Regular Donors : {regular_latest_donors} ({parse_comparison(regular_latest_donors,regular_previous_donors)})\n\t- Others Donors  : {others_latest_donors} ({parse_comparison(others_latest_donors,others_previous_donors)})\n\nBlood Types Statistics\n\t- Type A  : {latest_blood_a} ({parse_comparison(latest_blood_a,previous_blood_a)})\n\t- Type B  : {latest_blood_b} ({parse_comparison(latest_blood_b,previous_blood_b)})\n\t- Type AB : {latest_blood_ab} ({parse_comparison(latest_blood_ab,previous_blood_ab)})\n\t- Type O  : {latest_blood_o} ({parse_comparison(latest_blood_o,previous_blood_o)})\n\nData is acquired from KKM daily at 0900 hrs and at 2200 hrs\nA comparison of 3 days can be seen by the side
+            ''')
 print("Finished")
 
 

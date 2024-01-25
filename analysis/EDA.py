@@ -330,7 +330,7 @@ import os
 os.chdir('..')
 
 from github import Github
-import utils.vars as vars
+import main_utils.vars as vars
 import typing 
 
 

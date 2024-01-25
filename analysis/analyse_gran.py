@@ -5,8 +5,8 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.dirname(script_dir)
 sys.path.insert(0, parent_dir)
 
-from utils.data_loader import *
-from utils.save_fig import save_fig
+from main_utils.data_loader import *
+from main_utils.save_fig import save_fig
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
