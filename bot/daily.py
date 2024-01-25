@@ -1,5 +1,5 @@
-import logging
 import os
+import pytz
 
 from telegram import Update
 from telegram.ext import ContextTypes
@@ -8,6 +8,7 @@ from datetime import time
 from .utils.helper import get_message_string
 from .utils import helper as h
 
+MY_TIMEZONE = pytz.timezone("Asia/Kuala_Lumpur")
 
 # Daily Messaging
 async def daily_msg(context, chat_id):
@@ -26,5 +27,6 @@ async def stop_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def schedule_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
-    context.job_queue.run_daily(lambda context: daily_msg(context, chat_id), interval=20)
+    context.job_queue.run_repeating(daily_msg(context, chat_id),interval=3600)
+    # context.job_queue.run_daily(daily_msg(context, chat_id),time=time(hour=10,tzinfo=MY_TIMEZONE))
 
