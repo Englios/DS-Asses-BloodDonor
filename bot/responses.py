@@ -7,10 +7,6 @@ from telegram.ext import ContextTypes
 
 BOT_USERNAME = vars.BOT_USERNAME
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger()
-
 # Responses
 def handle_response(text:str) -> str:
     processed:str = text.lower()

@@ -3,9 +3,8 @@ from telegram.ext import ContextTypes
 from main_utils.vars import BOT_USERNAME
 from .daily import schedule_daily_job
 
-# Commands
-
-#Init Commands
+## Commands
+# Init Commands
 async def help_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     message = """
     Hello,I am here to serve!!!

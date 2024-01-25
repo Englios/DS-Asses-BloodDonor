@@ -8,13 +8,6 @@ from datetime import time
 from .utils.helper import get_message_string
 from .utils import helper as h
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger()
-
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger()
 
 # Daily Messaging
 async def daily_msg(context, chat_id):
