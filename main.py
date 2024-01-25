@@ -1,7 +1,14 @@
+import logging
+
 from bot import commands,daily,responses
 from main_utils import vars
 from telegram.ext import Application, CommandHandler, MessageHandler,Updater,filters
+
 def main():
+    
+    logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger()
     
     print('Starting Bot')
     app = Application.builder().token(vars.TELEGRAM_BOT_KEY).build()
