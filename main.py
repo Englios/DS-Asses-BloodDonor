@@ -10,11 +10,18 @@ def main():
     app.add_handler(CommandHandler('help',commands.help_command))
     app.add_handler(CommandHandler('start',commands.start_command))
     app.add_handler(CommandHandler("info", commands.info_command))
+    app.add_handler(CommandHandler("questions", commands.questions_command))
     
     # Daily Commands
     app.add_handler(CommandHandler('daily',daily.send_daily))
     app.add_handler(CommandHandler("schedule", daily.schedule_daily_job))
     app.add_handler(CommandHandler("schedule_stop", daily.stop_daily_job))
+    
+    # Show Commands
+    app.add_handler(CommandHandler('show',daily.send_daily))
+    app.add_handler(CommandHandler("schedule", daily.schedule_daily_job))
+    app.add_handler(CommandHandler("schedule_stop", daily.stop_daily_job))
+    
     
     #Messages
     app.add_handler(MessageHandler(filters.TEXT,responses.handle_message))

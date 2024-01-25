@@ -1,11 +1,12 @@
 import logging
 import os
+
 from telegram import Update
-from telegram.ext import ContextTypes, Updater, CommandHandler
+from telegram.ext import ContextTypes
+
 from datetime import time
 from .utils.helper import get_message_string
 from .utils import helper as h
-from functools import partial
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -26,14 +27,11 @@ async def send_daily(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
     await daily_msg(context, chat_id)
     # await update.message.reply_text('Daily Statistics')
-
-async def stop_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.stop_polling()
     
 async def stop_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.job_queue.stop()
 
 def schedule_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
-    context.job_queue.run_repeating(lambda context: daily_msg(context, chat_id), interval=20)
+    context.job_queue.run_daily(lambda context: daily_msg(context, chat_id), interval=20)
 

@@ -37,16 +37,6 @@ async def start_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     schedule_daily_job(update,context)
     await update.message.reply_text(message)
 
-## Show Commands  
-async def show_malaysia_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('What would you like to see?')
-    
-async def show_states_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('What would you like to see?')
-    
-async def show_retention_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('What would you like to see?')
-
 ## Others
 async def info_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     message=f'''
@@ -59,3 +49,7 @@ async def questions_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     To ask me questions please tag me first {BOT_USERNAME}!!\nI am not too intelligent at my current iteration,So please ask the questions with the same exact phrase as below:\n\n- How are blood donations in malaysia trending?\n- How are blood donations in the states trending?\n- How well is Malaysia retaining blood donors?\n\n More questions will be added down the line!!!
     '''
     await update.message.reply_text(message)
+
+#Stop Bot
+async def stop_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.stop_polling()
