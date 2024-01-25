@@ -27,7 +27,7 @@ if not os.path.exists("./images/"):
 print('Acquiring Data...')
 AGGREGATE_DATA_REPO= "MoH-Malaysia/data-darah-public"
 aggregate_data_dict = get_data_from_repo(AGGREGATE_DATA_REPO)
-
+# Section 1: Aggregate Data
 donations_state_df = aggregate_data_dict['donations_state_df'][['date', 
                                                     'state', 
                                                     'daily',
@@ -41,56 +41,72 @@ donations_state_df = aggregate_data_dict['donations_state_df'][['date',
                                                     'donations_regular',
                                                     'donations_irregular',
                                                     ]].copy()
+donations_state_df['date'] = pd.to_datetime(donations_state_df['date'])
 
+# Section 2: Trend in Malaysia
 print("Finding Trends in Malaysia ...")
-# Get Trends in Malaysia
 malaysia_donations_df = donations_state_df.loc[donations_state_df['state'] == 'Malaysia']
-malaysia_donations_df['date'] = pd.to_datetime(malaysia_donations_df['date'])
 malaysia_visits_df = malaysia_donations_df.groupby(malaysia_donations_df['date'].dt.year)['daily'].sum().reset_index()
 malaysia_visits_df.columns = ['year', 'count']
 
-## Plot Malaysia Trend
+# Section 3: Plot Malaysia Trend
 sns.lineplot(data=malaysia_visits_df, x='year', y='count', color='red')
 plt.fill_between(malaysia_visits_df['year'], malaysia_visits_df['count'], color='red', alpha=0.3)
 
-plt.gca().yaxis.set_major_formatter(formatter)
-plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
-
-plt.ylabel('Donation Count')
-plt.xlabel('Year')
-plt.title("Trend of Donations in Malaysia")
-save_fig("./images/trend_donations_malaysia.jpg")
-
-# Get 7 Day Average Trend
+# Section 4: 7 Day Average Trend
 print("Looking for a 7 Day Average ...")
 average_7_df = malaysia_donations_df.drop(['location_mobile',
                                             'location_centre'],axis=1).copy()
 average_7_df['7_days_avg'] = np.int32(average_7_df['daily'].rolling(window=7).mean().fillna(0))
 average_7_df['7_days_avg_regular'] = np.int32(average_7_df['donations_regular'].rolling(window=7).mean().fillna(0))
-average_7_df
 
-## Plot Figure
-filtered_df = average_7_df[(pd.to_datetime(average_7_df['date']).dt.year >=  datetime.now().year - 1) & (pd.to_datetime(average_7_df['date']).dt.year <= datetime.now().year)]
+# Section 5: Plot 7 Day Average Trend
+filtered_df = average_7_df[(average_7_df['date'].dt.year >=  datetime.now().year - 1) & (average_7_df['date'].dt.year <= datetime.now().year)]
 plt.figure(figsize=(15,6))
-plt.plot(pd.to_datetime(filtered_df['date']), filtered_df['7_days_avg'],color = 'red')
-plt.fill_between(pd.to_datetime(filtered_df['date']), filtered_df['7_days_avg'],color = 'red',alpha =0.3,label = 'Total Donors')
-plt.fill_between(pd.to_datetime(filtered_df['date']), filtered_df['7_days_avg_regular'],color = 'red',alpha =0.5,label = 'Regular Donors')
+plt.plot(filtered_df['date'], filtered_df['7_days_avg'],color = 'red')
+plt.fill_between(filtered_df['date'], filtered_df['7_days_avg'],color = 'red',alpha =0.3,label = 'Total Donors')
+plt.fill_between(filtered_df['date'], filtered_df['7_days_avg_regular'],color = 'red',alpha =0.5,label = 'Regular Donors')
+
+# Section 6: Get Donations by State
+state_donations_df = donations_state_df.loc[(donations_state_df['state'] != 'Malaysia')]
+state_visits_df = state_donations_df.pivot_table(index=state_donations_df['date'].dt.year, columns='state', values='daily', aggfunc='sum').reset_index()
+state_visits_df.columns = ['year'] + state_visits_df.columns[1:].tolist()
+
+# Section 7: Plot Donation Count in Each State - All Years
+state_visits_sum_all_years = state_visits_df.iloc[:, 1:].sum()
+plt.figure(figsize=(10,8))
+plt.pie(state_visits_sum_all_years, labels=state_visits_sum_all_years.index, autopct='%1.1f%%')
+
+# Section 8: Plot Donation Count in Each State - 2024
+state_visits_df_2024 = state_visits_df[state_visits_df['year'] == 2024].iloc[:, 1:].sum()
+sorted_states = state_visits_df_2024.sort_values(ascending=True).index
+plt.figure(figsize=(10, 5))
+plt.barh(sorted_states, state_visits_df_2024[sorted_states], color=colors(np.arange(len(state_visits_df_2024))))
+
+# Section 9: Plot Donation Count in Each State - 2022
+state_visits_df_2022 = state_visits_df[state_visits_df['year'] == 2022].iloc[:, :-1].sum()
+sorted_states = state_visits_df_2022.sort_values(ascending=True).index
+plt.figure(figsize=(10, 5))
+plt.barh(sorted_states, state_visits_df_2022[sorted_states], color=colors(np.arange(len(state_visits_df_2022))))
+
+# Section 10: Trend Plot of states without WP KL
+state_visits_df = state_donations_df.pivot_table(index=state_donations_df['date'].dt.year, columns='state', values='daily', aggfunc='sum').reset_index()
+state_visits_df.columns = ['year'] + state_visits_df.columns[1:].tolist()
+state_visits_df.plot(x='year',kind='line',figsize=(10,5))
 
 plt.gca().yaxis.set_major_formatter(formatter)
 plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
-plt.xlabel('Date')
-plt.ylabel('Donors')
-plt.title(f'7-day Average of Daily Donations from {datetime.now().year - 1} - {datetime.now().year}')
-plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-plt.tight_layout()
-save_fig("./images/trend_7_day_avg_malaysia.jpg")
+plt.xlabel('Year')
+plt.ylabel('Donation Count')
+plt.title('Donation Count in Each State Over the Years')
+plt.legend(bbox_to_anchor=(1.05, 1))
+save_fig('donation_trend_all_years.jpg')
 
 # New Donors
 print("Looking For New Donors ...")
 new_donors_df = aggregate_data_dict['newdonors_state_df'].copy()
 malaysia_new_donors_df = new_donors_df.loc[new_donors_df['state'] == 'Malaysia']
-malaysia_new_donors_df['date'] = pd.to_datetime(malaysia_new_donors_df['date'])
-malaysia_new_donors_count= malaysia_new_donors_df.groupby(malaysia_new_donors_df['date'].dt.year)['total'].sum().reset_index()
+malaysia_new_donors_count= malaysia_new_donors_df.groupby(pd.to_datetime(malaysia_new_donors_df['date']).dt.year)['total'].sum().reset_index()
 malaysia_new_donors_count.columns = ['year', 'count']
 
 ## Plot
@@ -101,7 +117,7 @@ plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 plt.ylabel('Donation Count')
 plt.xlabel('Year')
 plt.title("Trend of New Donors in Malaysia")
-save_fig("./images/trend_new_donors_malaysia.jpg")
+save_fig("trend_new_donors_malaysia.jpg")
 
 #Get New Donors By Age
 malaysia_new_donors_age_count = malaysia_new_donors_df.groupby(malaysia_new_donors_df['date'])[['17-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64']].sum().reset_index()
@@ -119,10 +135,10 @@ plt.gca().yaxis.set_major_formatter(formatter)
 plt.xlabel('Age Groups')
 plt.ylabel('Donors')
 plt.title(f'New Donors By Age Group From {datetime.now().year - 1} - {datetime.now().year}')
-save_fig("./images/trend_new_donors_age_group.jpg")
+save_fig("trend_new_donors_age_group.jpg")
+
 
 #Get Daily Message
-donations_state_df['date'] = pd.to_datetime(donations_state_df['date'])
 latest_date = donations_state_df['date'].max()
 start_date = latest_date - timedelta(days=2)
 daily_df = donations_state_df.loc[(donations_state_df['date'] >= start_date) & (donations_state_df['date'] <= latest_date)].reset_index(drop=True)
@@ -153,7 +169,6 @@ previous_blood_ab = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 
 
 latest_blood_o = int(daily_df.loc[my_filter_latest & (daily_df['state'] == 'Malaysia'), 'blood_o'].values[0])
 previous_blood_o = int(daily_df.loc[my_filter_previous & (daily_df['state'] == 'Malaysia'), 'blood_o'].values[0])
-
 
 
 with open('./daily_texts/daily_message.txt','w',encoding='utf-8') as f:
