@@ -1,6 +1,6 @@
 import logging
 
-from bot import commands,daily,responses
+from bot import commands,daily,responses,show_commands
 from main_utils import vars
 from telegram.ext import Application, CommandHandler, MessageHandler,Updater,filters
 
@@ -25,9 +25,9 @@ def main():
     app.add_handler(CommandHandler("schedule_stop", daily.stop_daily_job))
     
     # Show Commands
-    app.add_handler(CommandHandler('show',daily.send_daily))
-    app.add_handler(CommandHandler("schedule", daily.schedule_daily_job))
-    app.add_handler(CommandHandler("schedule_stop", daily.stop_daily_job))
+    app.add_handler(CommandHandler('show_malaysia',show_commands.show_malaysia_command))
+    app.add_handler(CommandHandler('show_states',show_commands.show_states_command))
+    app.add_handler(CommandHandler('show_retention',show_commands.show_retention_command))
     
     
     #Messages
