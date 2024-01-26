@@ -89,7 +89,7 @@ plt.ylabel('Donors')
 plt.title('Types of Donors in Malaysia per Year')
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
-save_fig("./images/trend_donor_type_malaysia.jpg")
+save_fig("trend_donor_type_malaysia.jpg")
 
 ## Plot Retention Rates
 new_retention_df = pd.DataFrame()
@@ -121,6 +121,6 @@ plt.ylabel('Retention Rate (%)')
 plt.xlabel('Year')
 plt.ylim(0)
 plt.title("Trend of Retention in Malaysia")
-save_fig("./images/trend_retention_malaysia.jpg")
+save_fig("trend_retention_malaysia.jpg")
 
 print('Finished ...')
