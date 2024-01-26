@@ -1,7 +1,8 @@
 import asyncio
 import logging
-from main_utils import vars
+import show_commands
 
+from main_utils import vars
 from telegram import Update
 from telegram.ext import ContextTypes
 
@@ -13,13 +14,13 @@ def handle_response(text:str) -> str:
     
     match processed:
         case 'how are blood donations in malaysia trending':
-            return 'hi'
+            return show_commands.show_malaysia_command
         
         case 'how are blood donations in the states trending':
-            return None
+            return show_commands.show_states_command
         
         case 'how well is Malaysia retaining blood donors':
-            return None
+            return show_commands.show_retention_command
         
         case _:
             return 'I am not programmed to understand that yet'
