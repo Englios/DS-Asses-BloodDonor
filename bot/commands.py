@@ -51,4 +51,7 @@ async def questions_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
 
 #Stop Bot
 async def stop_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    chat_id = update.message.chat_id
+    
+    await context.bot.send_message(chat_id=chat_id,text='Shutting Down...\nTill we meet again :)')
     await context.bot.stop_polling()
