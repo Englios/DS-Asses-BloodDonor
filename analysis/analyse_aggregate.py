@@ -195,7 +195,6 @@ save_fig("trend_new_donors_malaysia.jpg")
 #Get New Donors By Age
 malaysia_new_donors_age_count = malaysia_new_donors_df.groupby(malaysia_new_donors_df['date'])[['17-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64']].sum().reset_index()
 malaysia_new_donors_age_count.columns = ['date', '17-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64']
-malaysia_new_donors_age_count
 
 filtered_df = malaysia_new_donors_age_count[(pd.to_datetime(malaysia_new_donors_age_count['date']).dt.year >=  datetime.now().year - 1) & (pd.to_datetime(malaysia_new_donors_age_count['date']).dt.year <= datetime.now().year)]
 filtered_df = filtered_df.drop('date',axis=1)
@@ -209,8 +208,22 @@ plt.xlabel('Age Groups')
 plt.ylabel('Donors')
 plt.title(f'New Donors By Age Group From {datetime.now().year - 1} - {datetime.now().year}')
 plt.tight_layout()
-save_fig("trend_new_donors_age_group.jpg")
+save_fig(f"trend_new_donors_age_group_{datetime.now().year - 1}_{datetime.now().year}.jpg")
 
+# New Donors Trend by Year
+malaysia_new_donors_df['date'] = pd.to_datetime(malaysia_new_donors_df['date']).dt.year
+malaysia_new_donors_df = malaysia_new_donors_df.groupby('date')[['17-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64']].sum().reset_index()
+malaysia_new_donors_df.columns = ['year','17-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64']
+malaysia_new_donors_df.plot(x='year',kind='line',figsize=(10,5))
+
+plt.gca().yaxis.set_major_formatter(formatter)
+plt.gca().xaxis.set_major_locator(ticker.MaxNLocator())
+plt.xlabel('Years')
+plt.ylabel('Donors')
+plt.title(f'Trend of New Donors')
+plt.legend(bbox_to_anchor=(1.05,1),loc='upper left')
+plt.tight_layout()
+save_fig("trend_new_donors_age_group_years.jpg")
 
 #Get Daily Message
 latest_date = donations_state_df['date'].max()
