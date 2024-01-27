@@ -5,9 +5,7 @@ from main_utils.vars import BOT_USERNAME
 ## Show Commands  
 async def show_malaysia_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
-    message = f"""
-    Hello here is the latest statistics for Malaysia
-    """
+
     #Show Trend
     await context.bot.send_photo(chat_id=chat_id,
                                  photo=open('./images/trend_donations_malaysia.jpg', 'rb'),
