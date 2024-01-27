@@ -28,7 +28,7 @@ async def show_states_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=chat_id,text='Here are the trends in Malaysian States.')
     
     await context.bot.send_photo(chat_id=chat_id,
-                                 photo=open('/images/percentage_donations_state_all_years.jpg', 'rb'),
+                                 photo=open('./images/percentage_donations_state_all_years.jpg', 'rb'),
                                  caption = f'As in the figure we see that W.P Kuala Lumpur having the most donors,but this does not incdicate that most donors are living in KL.\nKKM has mobile donation centers which goes around Selangor and W.P Putrajaya,the donations towards these mobile donation spots are counted under W.P Kuala Lumpur ')
     
     await context.bot.send_photo(chat_id=chat_id,
@@ -48,11 +48,11 @@ async def show_retention_command(update:Update,context:ContextTypes.DEFAULT_TYPE
     chat_id = update.message.chat_id
     
     await context.bot.send_photo(chat_id=chat_id,
-                                photo=open('./images/trend_donor_types_malaysia.jpg', 'rb'),
+                                photo=open('./images/trend_donor_type_malaysia.jpg', 'rb'),
                                 caption = f"Donors in Malaysia can be divided into two types,New and Returning Donors.\nReturning Donors can further be broken down into Regular Donor(those who donate regularly within 2 years) and Lapsed Donor(those who donate again after 2 years).\nThe plot shows the trend of donors in Malaysia,where we see more returning donors and new donors.\nThe dip in regular donors after 2020 can be attributed to COVID19,which made donating difficult,but is on the rise again.")
     
     await context.bot.send_photo(chat_id=chat_id,
-                                photo=open('./images/trend_donor_types_malaysia.jpg', 'rb'),
+                                photo=open('./images/trend_retention_malaysia.jpg', 'rb'),
                                 caption = f"Thus a plot of retention rates can be used.\nThe retention rate is calculated by using (type of returning donors/total_donors)*100.\nHere we see a trend of more regular donors returning in the year 2023.")
 
 async def show_new_donors_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
@@ -67,8 +67,12 @@ async def show_new_donors_command(update:Update,context:ContextTypes.DEFAULT_TYP
                                 caption = f"A clearer picture can be seen in this plot,where we see a decline after 2020,which was due to COVID19.\n Another things to attribute towards the decline is the previous new donors being classified as returning donors,which shows that Malaysia is retaining donors well")
     
     await context.bot.send_photo(chat_id=chat_id,
-                                photo=open('./images/trend_new_donors_age_groups.jpg', 'rb'),
+                                photo=open('./images/trend_new_donors_age_groups_2023_2024.jpg', 'rb'),
                                 caption = f"From 2023 - 2024, the younger generation (17-24) makes up the brunt of the donation force")
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_new_donors_age_groups_years.jpg', 'rb'),
+                                caption = f"A more general trend of the new donors over the years can be seen here")
     
 
     
