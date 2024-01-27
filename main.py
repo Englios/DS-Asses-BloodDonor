@@ -43,7 +43,7 @@ def main():
         app.run_polling(poll_interval=3)
     except KeyboardInterrupt:
         print("Stopping bot...")
-        daily.stop_bot(app)
+        commands.stop_bot(app)
         print("All tasks cancelled.")
     
 
