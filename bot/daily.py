@@ -12,9 +12,7 @@ MY_TIMEZONE = pytz.timezone("Asia/Kuala_Lumpur")
 
 # Daily Messaging
 async def daily_msg(context, chat_id):
-    photo_path = os.path.join(os.getcwd(), "images", "test1.png")
     daily_message = os.path.join(os.getcwd(),"daily_texts","daily_message.txt")
-    # await context.bot.send_photo(chat_id=chat_id, photo=open(photo_path, 'rb'))
     await context.bot.send_message(chat_id=chat_id, text=get_message_string(daily_message))
 
 async def send_daily(update: Update, context: ContextTypes.DEFAULT_TYPE):
