@@ -28,6 +28,7 @@ def main():
     app.add_handler(CommandHandler('show_malaysia',show_commands.show_malaysia_command))
     app.add_handler(CommandHandler('show_states',show_commands.show_states_command))
     app.add_handler(CommandHandler('show_retention',show_commands.show_retention_command))
+    app.add_handler(CommandHandler('show_new_donors',show_commands.show_new_donors_command))
     
     
     #Messages
