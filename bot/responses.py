@@ -1,29 +1,33 @@
 import asyncio
 import logging
-import show_commands
+from .show_commands import *
 
 from main_utils import vars
+from .utils import helper
 from telegram import Update
 from telegram.ext import ContextTypes
+
 
 BOT_USERNAME = vars.BOT_USERNAME
 
 # Responses
-def handle_response(text:str) -> str:
-    processed:str = text.lower()
+def handle_response(text:str,update,context) -> str:
+    processed_text = helper.get_lemmatized_words(text.lower())
+
+    if all(keyword in processed_text for keyword in ['malaysia','trend','blood','donations']):
+        return show_malaysia_command()
+        
+    elif all(keyword in processed_text for keyword in ['states','trend','blood','donations']):
+        return show_states_command()
+        
+    elif any(keyword in processed_text for keyword in ['retain', 'return', 'regular','lapse']):
+        return show_retention_command()
     
-    match processed:
-        case 'how are blood donations in malaysia trending':
-            return show_commands.show_malaysia_command
-        
-        case 'how are blood donations in the states trending':
-            return show_commands.show_states_command
-        
-        case 'how well is Malaysia retaining blood donors':
-            return show_commands.show_retention_command
-        
-        case _:
-            return 'I am not programmed to understand that yet'
+    elif any(keyword in processed_text for keyword in ['new','blood','donations','donor']):
+        return show_new_donors_command()
+    
+    else:
+        return 'I am not programmed to understand that yet'
 
 async def handle_message(update:Update,context:ContextTypes.DEFAULT_TYPE):
     message_type: str = update.message.chat.type
