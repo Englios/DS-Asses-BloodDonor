@@ -6,6 +6,13 @@ This is a Telegram bot that makes visualization according to MoH Blood Donations
 ## Usage
 The bot is currently hosted on AWS ECS using the Docker Container. You can find it [here](https://t.me/blooddonationbot).Alternatively, you can host it yourself by following the instructions below.
 
+## Features
+- Daily Job that sends the latest up to date statistics
+- Trend of Malaysia Blood Donation
+- Trend of Malaysian States Blood Donation
+- Retention trend of Malaysia Blood Donation
+- Bot is able to answer questions regarding Blood Donation in Malaysia
+
 ### Installation
 1. Clone this repository.
 2. Install the required packages using `pip install -r requirements.txt`.
@@ -28,5 +35,6 @@ The bot is currently hosted on AWS ECS using the Docker Container. You can find 
 - `/show_malaysia` - Shows the trend of Malaysia Blood Donation
 - `/show_states` - Shows the trend of Malaysian States Blood Donation
 - `/show_retention` - Shows the retention trend of Malaysia Blood Donation
+- `/show_new_donors` - Shows the trend of new donors in Malaysia
 - `/questions` - Displays the list of questions you can ask me!
 - `/info` - Shows further info of the Blood Donation Bot
