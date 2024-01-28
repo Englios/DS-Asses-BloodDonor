@@ -65,11 +65,11 @@ async def show_new_donors_command(update:Update,context:ContextTypes.DEFAULT_TYP
                                 caption = f"A clearer picture can be seen in this plot,where we see a decline after 2020,which was due to COVID19.\n Another things to attribute towards the decline is the previous new donors being classified as returning donors,which shows that Malaysia is retaining donors well")
     
     await context.bot.send_photo(chat_id=chat_id,
-                                photo=open('./images/trend_new_donors_age_groups_2023_2024.jpg', 'rb'),
+                                photo=open('./images/trend_new_donors_age_group_2023_2024.jpg', 'rb'),
                                 caption = f"From 2023 - 2024, the younger generation (17-24) makes up the brunt of the donation force")
     
     await context.bot.send_photo(chat_id=chat_id,
-                                photo=open('./images/trend_new_donors_age_groups_years.jpg', 'rb'),
+                                photo=open('./images/trend_new_donors_age_group_years.jpg', 'rb'),
                                 caption = f"A more general trend of the new donors over the years can be seen here")
     
 
