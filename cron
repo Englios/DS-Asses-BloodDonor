@@ -1,4 +1,4 @@
 #!/bin/bash -x
 * * * * * python3 /app/test.py >> /var/log/cron.log
-1 * * * * python3 /app/analysis/analyse_aggregate.py >> /var/log/analyse_aggregate.log
-1 * * * * python3 /app/analysis/analyse_gran.py >> /var/log/analyse_gran.log
+* 9,12 * * * python3 /app/analysis/analyse_aggregate.py >> /var/log/analyse_aggregate.log
+* 9,12 * * * python3 /app/analysis/analyse_gran.py >> /var/log/analyse_gran.log
