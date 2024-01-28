@@ -45,7 +45,7 @@ async def info_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     
 async def questions_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     message=f'''
-    To ask me questions please tag me first {BOT_USERNAME}!!\nI am not too intelligent at my current iteration,So please ask the questions with the same exact phrase as below:\n\n- How are blood donations in malaysia trending?\n- How are blood donations in the states trending?\n- How well is Malaysia retaining blood donors?\n\n More questions will be added down the line!!!
+    To ask me questions please tag me first {BOT_USERNAME}!!\nI am not too intelligent at my current iteration,So please ask the questions with the some keywords below :\n\n- How are **blood donations** in **malaysia** **trending**?\n- How are **blood donations** in the **states** **trending**?\n- How well is **Malaysia** **retaining** **blood donors**?\n-What is the trend of **New Donors** in **Malaysia**?\n\n More questions will be added down the line!!!
     '''
     await update.message.reply_text(message)
 
