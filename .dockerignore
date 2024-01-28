@@ -31,6 +31,9 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 **/venv
+**/images
+**/daily_texts
+**.ipynb
 
 LICENSE
 README.md
