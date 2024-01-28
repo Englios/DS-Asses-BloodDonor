@@ -22,8 +22,12 @@ formatter = ticker.FuncFormatter(lambda x,pos: f"{float(x/1000)}K")
 
 if not os.path.exists("./images/"):
     os.makedirs("./images/")
-
+    
+if not os.path.exists("./daily_texts/"):    
+    os.makedirs('./daily_texts')
+    
 #Read Data
+print(f"Today's Date @ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 print('Acquiring Data...')
 AGGREGATE_DATA_REPO= "MoH-Malaysia/data-darah-public"
 aggregate_data_dict = get_data_from_repo(AGGREGATE_DATA_REPO)
@@ -261,7 +265,7 @@ previous_blood_o = int(daily_df.loc[my_filter_previous & (daily_df['state'] == '
 with open('./daily_texts/daily_message.txt','w',encoding='utf-8') as f:
     f.write(f'''\n= Latest Update as of {daily_df['date'].loc[daily_df['date'] == latest_date].drop_duplicates().values[0].astype('datetime64[D]')} =\n\nDonor Statistics\n\t- Total Donors   : {latest_donors} ({parse_comparison(latest_donors,previous_donors)})\n\t- New Donors     : {new_latest_donors} ({parse_comparison(new_latest_donors,new_previous_donors)})\n\t- Regular Donors : {regular_latest_donors} ({parse_comparison(regular_latest_donors,regular_previous_donors)})\n\t- Others Donors  : {others_latest_donors} ({parse_comparison(others_latest_donors,others_previous_donors)})\n\nBlood Types Statistics\n\t- Type A  : {latest_blood_a} ({parse_comparison(latest_blood_a,previous_blood_a)})\n\t- Type B  : {latest_blood_b} ({parse_comparison(latest_blood_b,previous_blood_b)})\n\t- Type AB : {latest_blood_ab} ({parse_comparison(latest_blood_ab,previous_blood_ab)})\n\t- Type O  : {latest_blood_o} ({parse_comparison(latest_blood_o,previous_blood_o)})\n\nData is acquired from KKM daily at 0900 hrs and at 2200 hrs\nA comparison of 3 days can be seen by the side
             ''')
-print("Finished")
+print(f"Finished @ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
 
 

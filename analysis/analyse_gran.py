@@ -7,6 +7,8 @@ sys.path.insert(0, parent_dir)
 
 from main_utils.data_loader import *
 from main_utils.save_fig import save_fig
+from datetime import datetime
+
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
@@ -17,6 +19,8 @@ if not os.path.exists("./images/"):
 sns.set(style="whitegrid")
 
 #Read Data
+print(f"Today's Date @ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+print('Acquiring Gran Data...')
 GRANULAR_DATA_LINK ="https://dub.sh/ds-data-granular"
 gran_data_df = read_parquet(GRANULAR_DATA_LINK)
 
@@ -123,4 +127,4 @@ plt.ylim(0)
 plt.title("Trend of Retention in Malaysia")
 save_fig("trend_retention_malaysia.jpg")
 
-print('Finished ...')
+print(f"Finished @ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
