@@ -4,7 +4,7 @@
 This is a Telegram bot that makes visualization according to MoH Blood Donations Data. It is written in Python and uses the [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot) library.
 
 ## Usage
-The bot is currently hosted on AWS ECS using the Docker Container. You can find it [here](https://t.me/blooddonationbot).Alternatively, you can host it yourself by following the instructions below.
+The bot is currently hosted on Digital Ocean via the Docker Container. You can find it [here](https://t.me/blooddonationbot).Alternatively, you can host it yourself by following the instructions below.
 
 ## Features
 - Daily Job that sends the latest up to date statistics
