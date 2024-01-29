@@ -1,5 +1,5 @@
 #!/bin/bash -x
 * * * * * python3 /app/test.py >> /var/log/cron.log
-10 * * * * python3 /app/analysis/analyse_aggregate.py >> /var/log/analyse_aggregate.log
-10 * * * * python3 /app/analysis/analyse_gran.py >> /var/log/analyse_gran.log
-15 * * * * pkill -f main.py && echo "Restarting Program" && python3 /app/main.py >> /var/log/main.log 
+5 9,12,15 * * * python3 /app/analysis/analyse_aggregate.py >> /var/log/analyse_aggregate.log
+10 9,12,15 * * * python3 /app/analysis/analyse_gran.py >> /var/log/analyse_gran.log
+15 9,12,15 * * * pkill -f main.py && echo "Restarting Program" && python3 /app/main.py >> /var/log/main.log 
