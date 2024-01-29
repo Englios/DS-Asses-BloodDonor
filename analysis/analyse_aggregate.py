@@ -16,7 +16,7 @@ from utils.helper import parse_comparison
 from datetime import datetime,timedelta
 
 sns.set(style="whitegrid")
-plt.figure(figsize=(15,6))
+plt.figure(figsize=(20,16))
 plt.tight_layout()
 formatter = ticker.FuncFormatter(lambda x,pos: f"{float(x/1000)}K")
 
@@ -54,7 +54,10 @@ malaysia_visits_df = malaysia_donations_df.groupby(malaysia_donations_df['date']
 malaysia_visits_df.columns = ['year', 'count']
 
 ## Plot Malaysia Trend
-sns.lineplot(data=malaysia_visits_df, x='year', y='count', color='red')
+plt.figure(figsize=(20,15))
+sns.lineplot(data=malaysia_visits_df, x='year', y='count', color='red',)
+sns.set_theme()
+sns.set_context('poster')
 plt.fill_between(malaysia_visits_df['year'], malaysia_visits_df['count'], color='red', alpha=0.3)
 
 plt.gca().yaxis.set_major_formatter(formatter)
@@ -80,7 +83,9 @@ start_yr = (average_7_df['date'].dt.year >=  datetime.now().year - 1)
 end_yr = (average_7_df['date'].dt.year <= datetime.now().year )
 filtered_df = average_7_df[(start_yr) & (end_yr)]
 
-plt.figure(figsize=(15,6))
+plt.figure(figsize=(25,20))
+sns.set_theme()
+sns.set_context('poster')
 plt.plot(filtered_df['date'], filtered_df['7_days_avg'],color = 'red')
 plt.fill_between(filtered_df['date'], filtered_df['7_days_avg'],color = 'red',alpha =0.3,label = 'Total Donors')
 plt.fill_between(filtered_df['date'], filtered_df['7_days_avg_regular'],color = 'red',alpha =0.5,label = 'Regular Donors')
@@ -99,7 +104,9 @@ start_yr = (average_7_df['date'].dt.year >=  datetime.now().year - 3)
 end_yr = (average_7_df['date'].dt.year <= datetime.now().year - 3)
 filtered_df = average_7_df[(start_yr) & (end_yr)]
 
-plt.figure(figsize=(15,6))
+plt.figure(figsize=(25,20))
+sns.set_theme()
+sns.set_context('poster')
 plt.plot(filtered_df['date'], filtered_df['7_days_avg'],color = 'red')
 plt.fill_between(filtered_df['date'], filtered_df['7_days_avg'],color = 'red',alpha =0.3,label = 'Total Donors')
 plt.fill_between(filtered_df['date'], filtered_df['7_days_avg_regular'],color = 'red',alpha =0.5,label = 'Regular Donors')
@@ -113,15 +120,15 @@ plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 save_fig("trend_7_day_avg_malaysia_2021.jpg")
 
-
-#Get By State
+#? Get By State
 state_donations_df = donations_state_df.loc[(donations_state_df['state'] != 'Malaysia')]
 state_visits_df = state_donations_df.pivot_table(index=state_donations_df['date'].dt.year, columns='state', values='daily', aggfunc='sum').reset_index()
 state_visits_df.columns = ['year'] + state_visits_df.columns[1:].tolist()
 
 # Sum the donation counts for all years
 state_visits_sum_all_years = state_visits_df.iloc[:, 1:].sum()
-plt.figure(figsize=(10,8))
+plt.figure(figsize=(20,18))
+sns.set_theme()
 clrs = sns.color_palette('husl', n_colors=len(state_visits_df.columns))
 plt.pie(state_visits_sum_all_years, labels=state_visits_sum_all_years.index, autopct='%1.1f%%',colors=clrs)
 plt.title(f"Donation Count in Each State - All Years \n Total Donors : {round(state_visits_sum_all_years.sum()/1000,2)}K")
@@ -134,14 +141,18 @@ state_visits_df_2024 = state_visits_df[state_visits_df['year'] == 2024].iloc[:, 
 
 sorted_states = state_visits_df_2024.sort_values(ascending=True).index
 #Plot
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(22,26))
+sns.set_context('poster')
+plt.box(False)
+sns.set_style('white')
 colors = plt.cm.get_cmap('OrRd',len(state_visits_df.columns))
 plt.barh(sorted_states, state_visits_df_2024[sorted_states], color=colors(np.arange(len(state_visits_df_2024))))
+for i, v in enumerate(state_visits_df_2024[sorted_states]):
+    plt.text(v + 200, i, f"{str(round(v/1000,2))} K", color='black', va='center_baseline')
+    
 plt.title(f"Donation Count in Each State - 2024 \n Total Donors : {round(state_visits_df_2024.sum()/1000,2)}K")
 
-plt.gca().xaxis.set_major_formatter(formatter)
-plt.xlabel('Donation Count')
-plt.ylabel('State')
+plt.xticks([])
 plt.tight_layout()
 save_fig('donation_count_state_2024.jpg')
 
@@ -149,14 +160,18 @@ save_fig('donation_count_state_2024.jpg')
 state_visits_df_2022 = state_visits_df[state_visits_df['year'] == 2022].iloc[:, 1:].sum()
 sorted_states = state_visits_df_2022.sort_values(ascending=True).index
 #Plot
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(22,26))
+sns.set_context('poster')
+plt.box(False)
+sns.set_style('white')
+
 colors = plt.cm.get_cmap('OrRd',len(state_visits_df))
 plt.barh(sorted_states, state_visits_df_2022[sorted_states], color=colors(np.arange(len(state_visits_df_2022))))
+for i, v in enumerate(state_visits_df_2022[sorted_states]):
+    plt.text(v + 200, i, f"{str(round(v/1000,2))} K", color='black', va='center_baseline')
 plt.title(f"Donation Count in Each State - 2022 \n Total Donors : {round(state_visits_df_2022.sum()/1000,2)}K")
 
-plt.gca().xaxis.set_major_formatter(formatter)
-plt.xlabel('Donation Count')
-plt.ylabel('State')
+plt.xticks([])
 plt.tight_layout()
 save_fig('donation_count_state_2022.jpg')
 
@@ -167,7 +182,9 @@ state_visits_df.columns = ['year'] + state_visits_df.columns[1:].tolist()
 
 #Plot
 clrs = sns.color_palette('husl', n_colors=len(state_visits_df.columns))
-state_visits_df.plot(x='year',kind='line',figsize=(10,5),color=clrs)
+state_visits_df.plot(x='year',kind='line',figsize=(20,16),color=clrs)
+sns.set_theme()
+sns.set_context('poster')
 
 plt.gca().yaxis.set_major_formatter(formatter)
 plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
@@ -205,6 +222,10 @@ filtered_df = filtered_df.drop('date',axis=1)
 filtered_df = filtered_df.sum()
 
 # Plot Figure
+plt.figure(figsize=(20, 15))
+sns.set_context('poster')
+plt.box(False)
+sns.set_style('white')
 plt.bar(filtered_df.index[:-1],filtered_df.values[:-1],color='salmon')
 
 plt.gca().yaxis.set_major_formatter(formatter)
@@ -218,7 +239,11 @@ save_fig(f"trend_new_donors_age_group_{datetime.now().year - 1}_{datetime.now().
 malaysia_new_donors_df['date'] = pd.to_datetime(malaysia_new_donors_df['date']).dt.year
 malaysia_new_donors_df = malaysia_new_donors_df.groupby('date')[['17-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64']].sum().reset_index()
 malaysia_new_donors_df.columns = ['year','17-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64']
-malaysia_new_donors_df.plot(x='year',kind='line',figsize=(10,5))
+
+malaysia_new_donors_df.plot(x='year',kind='line',figsize=(20,22))
+sns.set_context('poster')
+plt.box(False)
+sns.set_style('white')
 
 plt.gca().yaxis.set_major_formatter(formatter)
 plt.gca().xaxis.set_major_locator(ticker.MaxNLocator())
@@ -228,6 +253,72 @@ plt.title(f'Trend of New Donors')
 plt.legend(bbox_to_anchor=(1.05,1),loc='upper left')
 plt.tight_layout()
 save_fig("trend_new_donors_age_group_years.jpg")
+
+#Location Trend
+wp_state_donations_df = donations_state_df.loc[donations_state_df['state'] == 'Malaysia']
+wp_state_donations_df['date'] = pd.to_datetime(wp_state_donations_df['date'])
+state_visits_df = wp_state_donations_df.pivot_table(index=wp_state_donations_df['date'].dt.year,values=['location_mobile','location_centre'], aggfunc='sum').reset_index()
+state_visits_df[5:].plot(x='date',kind='area',color=['salmon','red'],alpha=0.3,figsize=(20,15))
+sns.set_theme()
+sns.set_context('poster')
+
+formatter = ticker.FuncFormatter(lambda x, pos: f"{int(x/1000)}K")
+plt.gca().yaxis.set_major_formatter(formatter)
+plt.gca().xaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+
+plt.xlabel('Date')
+plt.ylabel('Donors')
+plt.title(f'Trend of Donations Locations for Malaysia')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout()
+save_fig("trend_malaysia_location.jpg")
+
+# All States
+locations_df = donations_state_df.copy()
+locations_df = locations_df.loc[locations_df['state'] != 'Malaysia']
+locations_df['date'] = pd.to_datetime(locations_df['date'])
+state_visits_df = locations_df.pivot_table(index=locations_df['state'],values=['location_mobile','location_centre'], aggfunc='sum').reset_index()
+sorted_states = state_visits_df.sort_values(by='location_mobile',ascending=True).index
+sorted_states_labels = [state_visits_df['state'].iloc[l] for l in sorted_states]
+
+
+y = np.arange(len(sorted_states))
+width = 0.4
+
+first_bar = state_visits_df['location_mobile']
+second_bar = state_visits_df['location_centre']
+
+first_bar_label = 'Location Mobile'
+second_bar_label = 'Location Centre'
+
+first_bar_color = 'salmon'
+second_bar_color = 'red'
+
+state_visits_df = state_visits_df.sort_values(by='location_mobile', ascending=True)  
+
+plt.figure(figsize=(15, 18))
+sns.set_style('white')
+sns.set_context('talk')
+plt.box(False)
+
+plt.barh(y + width/2, first_bar, width, label=first_bar_label, color=first_bar_color)
+plt.barh(y - width/2, second_bar, width, label=second_bar_label, color=second_bar_color)
+
+
+for i, v in enumerate(first_bar):
+    plt.text(v + 1000, i + width/2, f"{str(round(v/1000,2))} K", color='black', va='center_baseline',fontsize = 12)
+    
+for i, v in enumerate(second_bar):
+    plt.text(v + 1000, i - width/2, f"{str(round(v/1000,2))} K", color='black', va='center_baseline',fontsize = 12)
+
+plt.title('Donation Locations by State')
+plt.yticks(y, sorted_states_labels)
+plt.xticks([])
+plt.legend(bbox_to_anchor=(1.05, 1), prop={'size': 10})
+plt.tight_layout()
+
+save_fig("states_location_count.jpg")
+
 
 #Get Daily Message
 latest_date = donations_state_df['date'].max()
