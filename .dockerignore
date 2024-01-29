@@ -34,6 +34,8 @@
 **/images
 **/daily_texts
 **.ipynb
+**.ipynb
+**.penm
 
 LICENSE
 README.md
