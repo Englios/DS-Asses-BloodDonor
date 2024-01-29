@@ -5,6 +5,8 @@ from main_utils.vars import BOT_USERNAME
 ## Show Commands  
 async def show_malaysia_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
+    
+    await context.bot.send_message(chat_id=chat_id,text='Here are the trends in Malaysia.')
 
     #Show Trend
     await context.bot.send_photo(chat_id=chat_id,
@@ -18,6 +20,10 @@ async def show_malaysia_command(update:Update,context:ContextTypes.DEFAULT_TYPE)
     await context.bot.send_photo(chat_id=chat_id,
                                 photo=open('./images/trend_7_day_avg_malaysia_2021.jpg', 'rb'),
                                 caption = f'This is further reinforced by looking at the data from 2021 - 2022,where a valley is formed early in 2021-5,which for that year,Ramadhan falls on May.')
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_malaysia_location.jpg', 'rb'),
+                                caption = f'Finally here is the places where Malaysian go to donate at throughout the years.After COVID19,there has been a surge of more mobile location to donate it')
     
 
 async def show_states_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
@@ -40,6 +46,10 @@ async def show_states_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     await context.bot.send_photo(chat_id=chat_id,
                                 photo=open('./images/donation_trend_all_years.jpg', 'rb'),
                                 caption = f"So by plotting the time series data by year for all the states excluding KL(because it's an outlier),we can see a much clearer trend of donation for all the states within Malaysia.There's no data for Labuan,Putrajaya and Perli,which explains the absence of these states")
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/states_location_count.jpg', 'rb'),
+                                caption = f'Finally here is the locations of where people are donating at.Note the more rural areas prefer to donate at centres (Hospitals,etc),while the high mobile donations within KL is attributed by donations from neighbouring states like Selangor and Putrajaya being counted under KL')
     
     
 async def show_retention_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
@@ -71,7 +81,98 @@ async def show_new_donors_command(update:Update,context:ContextTypes.DEFAULT_TYP
     await context.bot.send_photo(chat_id=chat_id,
                                 photo=open('./images/trend_new_donors_age_group_years.jpg', 'rb'),
                                 caption = f"A more general trend of the new donors over the years can be seen here")
+
+
+## Show Commands  No Text
+async def show_malaysia_command_no_text(update:Update,context:ContextTypes.DEFAULT_TYPE):
+    chat_id = update.message.chat_id
+    
+    await context.bot.send_message(chat_id=chat_id,text='Here are the trends in Malaysia.')
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_donations_malaysia.jpg', 'rb'),
+                                caption = f'Malaysia Blood Donations Trend')
+    #Show 7 Day Avg
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_7_day_avg_malaysia_2023.jpg', 'rb'),
+                                caption = f'7 Day Average Blood Donations in Malaysia 2023')
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_7_day_avg_malaysia_2021.jpg', 'rb'),
+                                caption = f'7 Day Average Blood Donations in Malaysia 2021')
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_malaysia_location.jpg', 'rb'),
+                                caption = f'Trend of Donation Locations by Years')
     
 
+async def show_states_command_no_text(update:Update,context:ContextTypes.DEFAULT_TYPE):
+    chat_id = update.message.chat_id
+    
+    await context.bot.send_message(chat_id=chat_id,text='Here are the trends in Malaysian States.')
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/percentage_donations_state_all_years.jpg', 'rb'),
+                                caption = f'Percentage of Donations by State')
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/donation_count_state_2024.jpg', 'rb'),
+                                caption = f'Donation Count by State in 2024')
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/donation_count_state_2022.jpg', 'rb'),
+                                caption = f'Donation Count by State in 2022')
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/donation_trend_all_years.jpg', 'rb'),
+                                caption = f"Donation Trend by State")
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/states_location_count.jpg', 'rb'),
+                                caption = f'Donation Locations by State')
     
     
+async def show_retention_command_no_text(update:Update,context:ContextTypes.DEFAULT_TYPE):
+    chat_id = update.message.chat_id
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_donor_type_malaysia.jpg', 'rb'),
+                                caption = f"Donor Types in Malaysia")
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_retention_malaysia.jpg', 'rb'),
+                                caption = f"Retention Rates in Malaysia")
+
+async def show_new_donors_command_no_text(update:Update,context:ContextTypes.DEFAULT_TYPE):
+    chat_id = update.message.chat_id
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_donor_type_malaysia.jpg', 'rb'),
+                                caption = f"New Donors in Malaysia")
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_new_donors_malaysia.jpg', 'rb'),
+                                caption = f"Trend of New Donors in Malaysia")
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_new_donors_age_group_2023_2024.jpg', 'rb'),
+                                caption = f"Donors Age Group in Malaysia 2023-2024")
+    
+    await context.bot.send_photo(chat_id=chat_id,
+                                photo=open('./images/trend_new_donors_age_group_years.jpg', 'rb'),
+                                caption = f"Trend of New Donors Over the Years")
+
+# Show All Visualizations
+async def show_all(update:Update,context:ContextTypes.DEFAULT_TYPE):
+    chat_id = update.message.chat_id
+    
+    await context.bot.send_message(chat_id=chat_id,text='Here are the Trend visualizations in Malaysia')
+    await show_malaysia_command_no_text(update, context)
+    
+    await context.bot.send_message(chat_id=chat_id,text='Here are the Trend visualizations in Malaysian States')
+    await show_states_command_no_text(update, context)
+    
+    await context.bot.send_message(chat_id=chat_id,text='Here are the Retention visualizations')
+    await show_retention_command_no_text(update, context)
+    
+    await context.bot.send_message(chat_id=chat_id,text='Here are the New Donoations visualizations in Malaysia')
+    await show_new_donors_command_no_text(update, context)
