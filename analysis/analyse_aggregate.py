@@ -24,7 +24,7 @@ if not os.path.exists("./images/"):
     os.makedirs("./images/")
     
 if not os.path.exists("./daily_texts/"):    
-    os.makedirs('./daily_texts')
+    os.makedirs('./daily_texts/')
     
 #Read Data
 print(f"Today's Date @ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
