@@ -1,12 +1,9 @@
-import asyncio
-import logging
 from .show_commands import *
 
 from main_utils import vars
 from .utils import helper
 from telegram import Update
-from telegram.ext import ContextTypes,CommandHandler
-
+from telegram.ext import ContextTypes
 
 BOT_USERNAME = vars.BOT_USERNAME
 
@@ -14,11 +11,11 @@ BOT_USERNAME = vars.BOT_USERNAME
 def handle_response(text:str) -> str:
     processed_text = helper.get_lemmatized_words(text.lower())
 
-    if all(keyword in processed_text for keyword in ['malaysia','trend','blood','donations']):
-        return "Here's the trend in Malaysia"
-        
-    elif all(keyword in processed_text for keyword in ['states','trend','blood','donations']):
+    if all(keyword in processed_text for keyword in ['malaysia','states','trend','blood','donations']):
         return "Here's the trend in the States"
+    
+    elif all(keyword in processed_text for keyword in ['malaysia','trend','blood','donations']):
+        return "Here's the trend in Malaysia"
         
     elif any(keyword in processed_text for keyword in ['retain', 'return', 'regular','lapse']):
         return "Here's how many donors are returning!"
@@ -27,7 +24,7 @@ def handle_response(text:str) -> str:
         return "Here's the trend of New Blood Donors"
     
     else:
-        return 'I am not programmed to understand that yet'
+        return 'I am not programmed to understand that yet or you '
 
 #Show parser
 async def show_parser(response:str,update,context):
@@ -35,7 +32,7 @@ async def show_parser(response:str,update,context):
         await show_malaysia_command(update, context)
         
     elif response == "Here's the trend in the States":
-       await show_states_command(update, context)
+        await show_states_command(update, context)
         
     elif response == "Here's how many donors are returning!":
         await show_retention_command(update, context)
