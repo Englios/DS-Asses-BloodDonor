@@ -7,7 +7,7 @@ from telegram.ext import ContextTypes
 from datetime import time
 from .utils.helper import get_message_string
 from .utils import helper as h
-from show_commands import show_all
+from .show_commands import show_all
 
 MY_TIMEZONE = pytz.timezone("Asia/Kuala_Lumpur")
 
@@ -25,7 +25,17 @@ async def send_daily(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Daily Statistics')
     await daily_msg(context, chat_id)
     await update.message.reply_text('Daily Charts')
-    await show_all(update,context)
+    await daily_viz(update,context)
+    
+async def send_daily_msg(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    chat_id = update.message.chat_id
+    await update.message.reply_text('Daily Statistics')
+    await daily_msg(context, chat_id)
+    
+async def send_daily_viz(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    chat_id = update.message.chat_id
+    await update.message.reply_text('Daily Charts')
+    await daily_viz(update,context)
     
 async def stop_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.job_queue.stop()

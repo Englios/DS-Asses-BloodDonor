@@ -1,3 +1,4 @@
+import asyncio
 from telegram import Update
 from telegram.ext import ContextTypes
 from main_utils.vars import BOT_USERNAME
@@ -146,10 +147,6 @@ async def show_new_donors_command_no_text(update:Update,context:ContextTypes.DEF
     chat_id = update.message.chat_id
     
     await context.bot.send_photo(chat_id=chat_id,
-                                photo=open('./images/trend_donor_type_malaysia.jpg', 'rb'),
-                                caption = f"New Donors in Malaysia")
-    
-    await context.bot.send_photo(chat_id=chat_id,
                                 photo=open('./images/trend_new_donors_malaysia.jpg', 'rb'),
                                 caption = f"Trend of New Donors in Malaysia")
     
@@ -165,14 +162,22 @@ async def show_new_donors_command_no_text(update:Update,context:ContextTypes.DEF
 async def show_all(update:Update,context:ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
     
-    await context.bot.send_message(chat_id=chat_id,text='Here are the Trend visualizations in Malaysia')
+    await context.bot.send_message(chat_id=chat_id,text='Telegram Has a Rate Limit,thus the graphs will be loaded after a 10s delay for each section')
+    
+    await asyncio.sleep(10) 
+    await context.bot.send_message(chat_id=chat_id,text='=== Trend visualizations in Malaysia (1/4) ===')
     await show_malaysia_command_no_text(update, context)
     
-    await context.bot.send_message(chat_id=chat_id,text='Here are the Trend visualizations in Malaysian States')
+    await asyncio.sleep(10) 
+    await context.bot.send_message(chat_id=chat_id,text='=== Trend visualizations in Malaysian States (2/4) ===')
     await show_states_command_no_text(update, context)
     
-    await context.bot.send_message(chat_id=chat_id,text='Here are the Retention visualizations')
+    await asyncio.sleep(10) 
+    await context.bot.send_message(chat_id=chat_id,text='=== Retention visualizations (3/4) ===')
     await show_retention_command_no_text(update, context)
     
-    await context.bot.send_message(chat_id=chat_id,text='Here are the New Donoations visualizations in Malaysia')
+    await asyncio.sleep(10) 
+    await context.bot.send_message(chat_id=chat_id,text='=== New Donoations visualizations in Malaysia (4/4) ===')
     await show_new_donors_command_no_text(update, context)
+    
+    await context.bot.send_message(chat_id=chat_id,text='=== Complete, All Graphs Sent ===')

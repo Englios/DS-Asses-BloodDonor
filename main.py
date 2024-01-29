@@ -21,6 +21,8 @@ def main():
     
     # Daily Commands
     app.add_handler(CommandHandler('daily',daily.send_daily))
+    app.add_handler(CommandHandler('daily_msg',daily.send_daily_msg))
+    app.add_handler(CommandHandler('daily_viz',daily.send_daily_viz))
     app.add_handler(CommandHandler("schedule", daily.schedule_daily_job))
     app.add_handler(CommandHandler("schedule_stop", daily.stop_daily_job))
     
@@ -29,13 +31,12 @@ def main():
     app.add_handler(CommandHandler('show_states',show_commands.show_states_command))
     app.add_handler(CommandHandler('show_retention',show_commands.show_retention_command))
     app.add_handler(CommandHandler('show_new_donors',show_commands.show_new_donors_command))
-    
+    app.add_handler(CommandHandler('show_all',show_commands.show_all))
     
     #Messages
     app.add_handler(MessageHandler(filters.TEXT,responses.handle_message))
     #Errors
     app.add_error_handler(responses.error)
-
 
     #Polling
     print("Polling....")
@@ -47,6 +48,5 @@ def main():
         commands.stop_bot(app)
         print("All tasks cancelled.")
     
-
 if __name__ == '__main__':
     main()

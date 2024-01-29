@@ -14,6 +14,7 @@ async def help_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     
     /start - Starts me up
     /daily - Shows the latest up to date statistics
+    /daily_msg - Shows the up to date daily Message
     /daily_viz - Shows the up to date visualizations within Malaysia
     
     /schedule - Manually Schedules Bot Daily Job
