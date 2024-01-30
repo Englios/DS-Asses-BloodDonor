@@ -42,7 +42,9 @@ async def stop_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def schedule_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
-    context.job_queue.run_repeating(daily_msg(context, chat_id),interval=300)
-    context.job_queue.run_repeating(daily_viz(update,context),interval=300)
-    # context.job_queue.run_daily(daily_msg(context, chat_id),time=time(hour=9,tzinfo=MY_TIMEZONE))
-    # context.job_queue.run_daily(daily_msg(context, chat_id),time=time(hour=12,tzinfo=MY_TIMEZONE))
+    context.bot.send_message(chat_id=chat_id, text='Starting Daily Job')
+    context.bot.send_message(chat_id=chat_id, text=f'Next job at')
+    jobMsg = context.job_queue.run_repeating(daily_msg(context, chat_id),interval=300)
+    jobViz = context.job_queue.run_repeating(daily_viz(update,context),interval=300)
+    context.job_queue.run_daily(daily_msg(context, chat_id),time=time(hour=9,tzinfo=MY_TIMEZONE))
+    context.job_queue.run_daily(daily_msg(context, chat_id),time=time(hour=12,tzinfo=MY_TIMEZONE))

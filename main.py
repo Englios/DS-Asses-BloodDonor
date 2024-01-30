@@ -2,7 +2,7 @@ import logging
 
 from bot import commands,daily,responses,show_commands
 from main_utils import vars
-from telegram.ext import Application, CommandHandler, MessageHandler,Updater,filters
+from telegram.ext import Application, CommandHandler, MessageHandler,filters
 
 def main():
     
@@ -12,6 +12,8 @@ def main():
     
     print('Starting Bot')
     app = Application.builder().token(vars.TELEGRAM_BOT_KEY).build()
+    
+    daily.schedule_daily_job()
     
     #Commands
     app.add_handler(CommandHandler('help',commands.help_command))
