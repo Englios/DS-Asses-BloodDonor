@@ -51,9 +51,9 @@ async def schedule_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE)
     
     # Schedule daily messages at 9 AM and 2 PM
     context.job_queue.run_daily(daily_msg_wrap, time=time(hour=9))
-    context.job_queue.run_daily(daily_msg_wrap, time=time(hour=14,minute=10))
+    context.job_queue.run_daily(daily_msg_wrap, time=time(hour=15))
 
     # Schedule daily visualization at 9 AM and 2 PM
     context.job_queue.run_daily(daily_viz_wrap, time=time(hour=9))
-    context.job_queue.run_daily(daily_viz_wrap, time=time(hour=14,minute=10))
+    context.job_queue.run_daily(daily_viz_wrap, time=time(hour=15))
 
