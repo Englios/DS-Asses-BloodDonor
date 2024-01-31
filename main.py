@@ -1,19 +1,25 @@
 import logging
+import pytz
 
+from datetime import time
 from bot import commands,daily,responses,show_commands
 from main_utils import vars
-from telegram.ext import Application, CommandHandler, MessageHandler,filters
+from telegram.ext import Application, CommandHandler, MessageHandler,Defaults,filters
+
+MY_TIMEZONE = pytz.timezone("Asia/Kuala_Lumpur")
 
 def main():
     
     logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     logger = logging.getLogger()
-    
     print('Starting Bot')
-    app = Application.builder().token(vars.TELEGRAM_BOT_KEY).build()
     
-    daily.schedule_daily_job()
+    defaults = Defaults(tzinfo=pytz.timezone('Asia/Kuala_Lumpur'))
+    app = Application.builder().defaults(defaults).token(vars.TELEGRAM_BOT_KEY).build()
+
+    # daily_queue = app.job_queue.run_repeating(daily.send_daily,interval=300)
+    # daily_queue = app.job_queue.run_daily(daily.send_daily,time=time(hour=12,minute=4))
     
     #Commands
     app.add_handler(CommandHandler('help',commands.help_command))
