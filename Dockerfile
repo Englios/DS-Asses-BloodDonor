@@ -17,10 +17,10 @@ RUN apt-get install -y python3 \
     && python3 -m nltk.downloader stopwords punkt wordnet 
 
 # Copy cron job file and set permissions
-RUN touch /var/log/cron.log \
-    && touch /var/log/analyse_aggregate.log\ 
-    && touch /var/log/analyse_gran.log\
-    && touch /var/log/main.log
+# RUN touch /var/log/cron.log \
+#     && touch /var/log/analyse_aggregate.log\ 
+#     && touch /var/log/analyse_gran.log\
+#     && touch /var/log/main.log
 
 COPY cron /etc/cron.d/cron
 RUN chmod 644 /etc/cron.d/cron \ 
