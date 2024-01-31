@@ -1,5 +1,6 @@
 #Token Stuff
 *vars.py
+*.pem
 
 #Virtual Environment
 /venv
