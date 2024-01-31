@@ -17,9 +17,6 @@ def main():
     
     defaults = Defaults(tzinfo=pytz.timezone('Asia/Kuala_Lumpur'))
     app = Application.builder().defaults(defaults).token(vars.TELEGRAM_BOT_KEY).build()
-
-    # daily_queue = app.job_queue.run_repeating(daily.send_daily,interval=300)
-    # daily_queue = app.job_queue.run_daily(daily.send_daily,time=time(hour=12,minute=4))
     
     #Commands
     app.add_handler(CommandHandler('help',commands.help_command))

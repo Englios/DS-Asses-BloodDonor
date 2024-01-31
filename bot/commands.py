@@ -39,7 +39,7 @@ async def start_command(update:Update,context:ContextTypes.DEFAULT_TYPE):
     message = f"""
     Hello! Thank you for chatting with me. I am Blood Bot!\n\nMy current capabilities are limited, but you can tag me {BOT_USERNAME} and ask me the following questions:\n\n- How are blood donations in Malaysia or specific states trending?\n- How well is Malaysia retaining blood donors?\n\nTo see all the list of questions you can ask please type in /questions \n\nI will also provide daily statistics of blood donation trends within Malaysia, including a comparison of data from three days ago.\n\nFeel free to ask me anything related to blood donations in Malaysia. I'm here to help!
     """
-    schedule_daily_job(update,context)
+    await schedule_daily_job(update,context)
     await update.message.reply_text(message)
 
 ## Others

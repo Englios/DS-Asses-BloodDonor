@@ -120,7 +120,7 @@ plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 save_fig("trend_7_day_avg_malaysia_2021.jpg")
 
-#? Get By State
+# Get By State
 state_donations_df = donations_state_df.loc[(donations_state_df['state'] != 'Malaysia')]
 state_visits_df = state_donations_df.pivot_table(index=state_donations_df['date'].dt.year, columns='state', values='daily', aggfunc='sum').reset_index()
 state_visits_df.columns = ['year'] + state_visits_df.columns[1:].tolist()
@@ -129,6 +129,7 @@ state_visits_df.columns = ['year'] + state_visits_df.columns[1:].tolist()
 state_visits_sum_all_years = state_visits_df.iloc[:, 1:].sum()
 plt.figure(figsize=(20,18))
 sns.set_theme()
+sns.set_context('poster')
 clrs = sns.color_palette('husl', n_colors=len(state_visits_df.columns))
 plt.pie(state_visits_sum_all_years, labels=state_visits_sum_all_years.index, autopct='%1.1f%%',colors=clrs)
 plt.title(f"Donation Count in Each State - All Years \n Total Donors : {round(state_visits_sum_all_years.sum()/1000,2)}K")
@@ -322,6 +323,7 @@ save_fig("states_location_count.jpg")
 
 #Get Daily Message
 latest_date = donations_state_df['date'].max()
+print(latest_date)
 start_date = latest_date - timedelta(days=2)
 daily_df = donations_state_df.loc[(donations_state_df['date'] >= start_date) & (donations_state_df['date'] <= latest_date)].reset_index(drop=True)
 my_filter_latest = (daily_df['date'] == latest_date) & (daily_df['state'] == 'Malaysia')
@@ -354,8 +356,8 @@ previous_blood_o = int(daily_df.loc[my_filter_previous & (daily_df['state'] == '
 
 
 with open('./daily_texts/daily_message.txt','w',encoding='utf-8') as f:
-    f.write(f'''\n= Latest Update as of {daily_df['date'].loc[daily_df['date'] == latest_date].drop_duplicates().values[0].astype('datetime64[D]')} =\n\nDonor Statistics\n\t- Total Donors   : {latest_donors} ({parse_comparison(latest_donors,previous_donors)})\n\t- New Donors     : {new_latest_donors} ({parse_comparison(new_latest_donors,new_previous_donors)})\n\t- Regular Donors : {regular_latest_donors} ({parse_comparison(regular_latest_donors,regular_previous_donors)})\n\t- Others Donors  : {others_latest_donors} ({parse_comparison(others_latest_donors,others_previous_donors)})\n\nBlood Types Statistics\n\t- Type A  : {latest_blood_a} ({parse_comparison(latest_blood_a,previous_blood_a)})\n\t- Type B  : {latest_blood_b} ({parse_comparison(latest_blood_b,previous_blood_b)})\n\t- Type AB : {latest_blood_ab} ({parse_comparison(latest_blood_ab,previous_blood_ab)})\n\t- Type O  : {latest_blood_o} ({parse_comparison(latest_blood_o,previous_blood_o)})\n\nData is acquired from KKM daily at 0900 hrs and at 2200 hrs\nA comparison of 3 days can be seen by the side
-            ''')
+    f.write(f'''\n= Latest Update as of {daily_df['date'].loc[daily_df['date'] == latest_date].drop_duplicates().values[0].astype('datetime64[D]')} =\n\nDonor Statistics\n\t- Total Donors   : {latest_donors} ({parse_comparison(latest_donors,previous_donors)})\n\t- New Donors     : {new_latest_donors} ({parse_comparison(new_latest_donors,new_previous_donors)})\n\t- Regular Donors : {regular_latest_donors} ({parse_comparison(regular_latest_donors,regular_previous_donors)})\n\t- Others Donors  : {others_latest_donors} ({parse_comparison(others_latest_donors,others_previous_donors)})\n\nBlood Types Statistics\n\t- Type A  : {latest_blood_a} ({parse_comparison(latest_blood_a,previous_blood_a)})\n\t- Type B  : {latest_blood_b} ({parse_comparison(latest_blood_b,previous_blood_b)})\n\t- Type AB : {latest_blood_ab} ({parse_comparison(latest_blood_ab,previous_blood_ab)})\n\t- Type O  : {latest_blood_o} ({parse_comparison(latest_blood_o,previous_blood_o)})\n\n Data is collected from MoH every 6 hours''')
+    
 print(f"Finished @ {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
 

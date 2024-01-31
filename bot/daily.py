@@ -43,18 +43,17 @@ async def stop_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def stop_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.job_queue.stop()
 
-#? Depreceated
 async def schedule_daily_job(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
     
-    daily_msg_wrap = lambda x=context:daily_msg(update, x)
-    daily_viz_wrap = lambda x=context:daily_viz(update, x)
+    daily_msg_wrap = lambda context=context:daily_msg(update, context)
+    daily_viz_wrap = lambda context=context:daily_viz(update, context)
     
     # Schedule daily messages at 9 AM and 2 PM
     context.job_queue.run_daily(daily_msg_wrap, time=time(hour=9))
-    context.job_queue.run_daily(daily_msg_wrap, time=time(hour=14))
+    context.job_queue.run_daily(daily_msg_wrap, time=time(hour=14,minute=10))
 
     # Schedule daily visualization at 9 AM and 2 PM
     context.job_queue.run_daily(daily_viz_wrap, time=time(hour=9))
-    context.job_queue.run_daily(daily_viz_wrap, time=time(hour=14))
+    context.job_queue.run_daily(daily_viz_wrap, time=time(hour=14,minute=10))
 
